@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Honeypot SIEM - Eventos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- CSS local -->
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+
+  <body class="bg-dark text-light">
+    <!-- NAVBAR compartida -->
+    <nav class="navbar navbar-dark bg-black shadow-sm mb-4">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">🛡️ Honeypot SIEM</span>
+        <div class="d-flex gap-3">
+          <a class="nav-link text-light" href="index.html">Dashboard</a>
+          <a class="nav-link text-light active" href="events.html">Eventos</a>
+          <a class="nav-link text-light" href="tokens.html">Tokens</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container pb-5">
+      <h3 class="mb-3">Eventos recientes</h3>
+
+      <!-- FILTROS SENCILLOS -->
+      <form class="row g-3 mb-3" id="filters-form">
+        <div class="col-md-3">
+          <label class="form-label">IP origen (contiene)</label>
+          <input type="text" id="filter-ip" class="form-control form-control-sm" />
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">Etiqueta (label)</label>
+          <input type="text" id="filter-label" class="form-control form-control-sm" />
+        </div>
+
+        <div class="col-md-2">
+          <label class="form-label">Máx. eventos</label>
+          <input type="number" id="filter-limit" class="form-control form-control-sm" value="50" min="1" max="500" />
+        </div>
+
+        <div class="col-md-2 d-flex align-items-end">
+          <button type="submit" class="btn btn-primary btn-sm w-100">
+            Aplicar filtros
+          </button>
+        </div>
+      </form>
+
+      <!-- TABLA DE EVENTOS -->
+      <div class="table-responsive bg-body rounded p-2">
+        <table class="table table-sm table-hover align-middle mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Fecha/Hora</th>
+              <th>IP origen</th>
+              <th>Label</th>
+              <th>Score</th>
+              <th>Comando</th>
+              <th>Razón</th>
+            </tr>
+          </thead>
+          <tbody id="events-body">
+            <!-- Se llena desde events.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <p class="mt-2 text-muted small" id="events-count"></p>
+    </main>
+
+    <!-- JS: usamos módulos ES6 -->
+    <script type="module" src="js/events.js"></script>
+  </body>
+</html>
