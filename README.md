@@ -1,124 +1,184 @@
-Sistema Honeypot en ESP32 con cClasificación Inteligente de Comandos
+# CyberStill SIEM – Web & ESP32 Integration  
+Sistema SIEM aplicado a entornos IoT con clasificación inteligente de eventos
 
-Este proyecto consiste en la integración de una Web SIEM con un backend de servidor UDP, que recibe comandos enviados desde un dispositivo ESP32 y registra eventos en tiempo real. El sistema está diseñado para detectar y gestionar posibles amenazas de seguridad mediante inteligencia artificial (IA) para clasificar los comandos y enviar los eventos al SIEM (Security Information and Event Management) local.
+---
 
-Descripción
+## Descripción General
 
-El proyecto CyberStill SIEM Web permite la integración de la detección de eventos desde dispositivos IoT (en este caso, un ESP32) con un backend web que gestiona estos eventos en tiempo real y los envía a un sistema SIEM para su posterior análisis.
+CyberStill SIEM Web & ESP32 Integration es un sistema de monitoreo de seguridad para entornos IoT, donde un dispositivo ESP32 actúa como generador de eventos, enviando comandos mediante el protocolo UDP a un servidor backend desarrollado en Python. Dicho servidor clasifica los eventos mediante un sistema básico de Inteligencia Artificial, los registra en archivos CSV, los envía a un SIEM local y los visualiza en tiempo real a través de una interfaz web.
 
-El servidor UDP que recibe los comandos de los dispositivos IoT (ESP32) clasifica estos comandos utilizando un sistema de IA, registrándolos en un archivo CSV y también enviándolos al SIEM para su visualización.
+Este proyecto representa la versión inicial del núcleo de CyberStill, orientado a la ciberseguridad defensiva aplicada a dispositivos IoT.
 
-Características principales:
+---
 
-Clasificación de comandos: Utiliza IA para identificar comandos sospechosos y peligrosos.
+## Objetivo del Proyecto
 
-Web SIEM: Interfaz web para visualizar los eventos de seguridad registrados.
+- Integrar dispositivos IoT dentro de un entorno SIEM.
+- Simular la detección de comandos sospechosos.
+- Aplicar monitoreo centralizado y automatización de eventos.
+- Servir como base para el desarrollo de una IA defensiva a mayor escala.
 
-Servidor UDP: Permite que el ESP32 envíe datos al servidor.
+---
 
-Integración con SIEM: Envío de eventos al SIEM para su análisis.
+## Arquitectura del Sistema
 
-Logs en CSV: Registro local de eventos en un archivo CSV para auditoría.
+ESP32 envia datos por UDP al servidor Python.  
+El servidor clasifica mediante IA, registra en CSV, envía al SIEM y muestra en el dashboard web.
 
-Estructura del Proyecto
+---
 
-El repositorio está dividido en las siguientes carpetas principales:
+## Tecnologías Utilizadas
 
-backend: Contiene el servidor UDP y la lógica para recibir y procesar los datos de los dispositivos IoT.
+- Hardware: ESP32  
+- Backend: Python 3.x, Flask  
+- Protocolo: UDP  
+- Frontend: HTML, CSS, JavaScript  
+- IA: Clasificación básica de comandos  
+- SIEM: Local (personalizado o ELK)  
+- Logs: CSV  
+- Red: WiFi  
 
-fronted: Código del frontend de la interfaz web para visualizar los eventos registrados por el SIEM.
+---
 
-include: Archivos de configuración y dependencias necesarias para la integración con el ESP32.
+## Características Principales
 
-lib: Librerías adicionales para la comunicación con el backend y SIEM.
+- Comunicación ESP32 a servidor por UDP.
+- Clasificación automática mediante IA.
+- Identificación de eventos sospechosos.
+- Registro automático en CSV.
+- Envío automático al SIEM.
+- Visualización web en tiempo real.
+- Arquitectura IoT funcional.
+- Enfoque defensivo (Blue Team).
 
-src: Archivos fuente para la aplicación web y la integración con el backend.
+---
 
-test: Archivos de prueba para asegurar la funcionalidad del sistema.
+## Estructura del Proyecto
 
-Requisitos
+CyberStill-SIEM-Web/
+├── backend/
+├── fronted/
+├── include/
+├── lib/
+├── src/
+├── test/
+├── requirements.txt
+└── README.md
 
-Python 3.x con las siguientes bibliotecas:
 
-Flask (para el servidor web)
+---
 
-requests (para hacer solicitudes POST al SIEM)
+## Requisitos
 
-socket (para gestionar el servidor UDP)
+### Software
 
-ESP32: Programado con el firmware adecuado para enviar comandos UDP al servidor.
+- Python 3.x  
+- Flask  
+- requests  
+- socket  
 
-Base de datos: Un sistema SIEM (como ELK, Splunk o un SIEM personalizado) para procesar y visualizar los eventos enviados desde el servidor UDP.
+Instalación de dependencias:
 
-Instalación
+```bash
+pip install -r requirements.txt
 
-Clona el repositorio:
+Hardware
 
+ESP32 configurado en la misma red que el backend.
+
+SIEM
+
+SIEM local ejecutándose en:
+
+http://127.0.0.1:8080
+
+
+API Key configurada para recepción de eventos.
+
+Instalación y Ejecución
+1. Clonar repositorio
 git clone https://github.com/tu_usuario/CyberStill-SIEM-Web.git
 cd CyberStill-SIEM-Web
 
+2. Configurar IP del servidor en el ESP32
 
-Instalar dependencias:
+Dentro del código del ESP32:
 
-Asegúrate de tener Python 3 instalado, luego instala las dependencias:
+const char* serverIP = "IP_DE_TU_PC";
 
-pip install -r requirements.txt
-
-
-Configura el SIEM:
-
-Asegúrate de tener tu SIEM configurado y corriendo en http://127.0.0.1:8080.
-
-Asegúrate de generar un API Key para poder enviar eventos al SIEM.
-
-Configura el ESP32:
-
-Cambia la IP del servidor en el código del ESP32 a la dirección IP de tu máquina donde está corriendo el backend.
-
-Asegúrate de que el ESP32 esté en la misma red que el servidor.
-
-Ejecuta el servidor UDP:
-
-Inicia el servidor backend que recibirá los comandos del ESP32:
-
+3. Ejecutar servidor UDP
 python backend/server_wifi_udp.py
 
-
-Inicia la aplicación web:
-
-Si deseas usar la interfaz web para visualizar los eventos:
-
+4. Ejecutar aplicación web
 python backend/app.py
 
 
-Esto iniciará la aplicación web en http://127.0.0.1:5000.
+Acceso a la web:
 
-Uso
+http://127.0.0.1:5000
 
-Envío de eventos desde el ESP32:
+Funcionamiento del Sistema
 
-Una vez que todo esté configurado, el ESP32 enviará comandos UDP al servidor backend cada vez que detecte algo relevante. Los eventos serán clasificados y enviados al SIEM para su análisis.
+El ESP32 envía comandos al servidor mediante UDP.
 
-Interfaz Web:
+El servidor clasifica los comandos usando IA.
 
-Puedes acceder a la interfaz web del SIEM para ver los eventos en tiempo real:
+Los eventos se almacenan en un archivo CSV.
 
-URL: http://127.0.0.1:5000
+Los eventos se envían al SIEM.
 
-En la web podrás ver los eventos clasificados por el sistema de IA.
+Los eventos se visualizan en el dashboard web.
 
-Visualización y análisis en SIEM:
+Visualización
 
-Los eventos también serán registrados en tu SIEM y podrás analizarlos a través de las herramientas que uses para ello (por ejemplo, ElasticSearch, Kibana, o Splunk).
+Desde la interfaz web se pueden observar:
+
+Eventos en tiempo real.
+
+Clasificación por nivel de riesgo.
+
+Historial de tráfico IoT.
+
+Simulación de ataques desde dispositivos IoT.
+
+Enfoque en Ciberseguridad
+
+Blue Team.
+
+Monitoreo de red.
+
+Detección de intrusos.
+
+Automatización de seguridad.
+
+IA aplicada a ciberseguridad.
+
+Seguridad en entornos IoT.
+
+Contexto Académico
+
+Proyecto desarrollado para el curso:
+
+BMA20P – Facultad de Ingeniería Eléctrica y Electrónica – Universidad Nacional de Ingeniería.
 
 Contribuciones
 
-Si deseas contribuir a este proyecto, puedes hacerlo mediante la creación de pull requests con mejoras o correcciones. Si encuentras algún bug, abre un issue para reportarlo.
+Las contribuciones se realizan mediante Pull Requests.
+Los errores pueden reportarse mediante Issues.
 
 Licencia
 
-Este proyecto está bajo la licencia MIT License.
+MIT License.
 
 Créditos
+
+Proyecto desarrollado por CyberStill-GmbH.
+
+Estado del Proyecto
+
+Versión 1.0 – Operativa.
+Versión 2.0 – IA mejorada (planificada).
+Versión 3.0 – Predicción de ataques (planificada).
+Versión SaaS – En desarrollo futuro.
 
 Desarrollado por: CyberStill-GmbH
